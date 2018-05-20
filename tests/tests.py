@@ -26,7 +26,13 @@ class BaseCase(TestCase):
         result = self.client.get('/')
         self.assert_template_used('index.html')
 
-#    def test_register(self):
+    def test_register_loads(self):
+        result = self.client.get('/register')
+        self.assertEqual(result.status_code, 200) 
+
+    def test_register_template(self):
+        result = self.client.get('/register')
+        self.assert_template_used('register.html')
 
 #    def test_login(self):
 
