@@ -37,9 +37,29 @@ class RegisterPage(BaseCase):
         expected_message = 'Congratulations, you are now a registered user!' 
         self.assertEqual(flash_message['message'], expected_message)
 
-    #def test_duplicate_username(self):
+    def test_duplicate_username(self):
+        duplicate_username = dict(username='tester', email='ee@e.com', password='pass', password2='pass')
+        result = self.client.post('/register', data=self.registerForm, follow_redirects=True)
+        result = self.client.post('/register', data=duplicate_username, follow_redirects=True)
+        # Did not redirect
+        self.assert_template_used('register.html')
+        # No success message
+        with self.client.session_transaction() as sess:
+            with self.assertRaises(KeyError):
+                flash_message = dict(sess['_flashes'])
 
-    #def test_duplicate_email(self):
+
+
+    def test_duplicate_email(self):
+        duplicate_email = dict(username='tester2', email='e@e.com', password='pass', password2='pass')
+        result = self.client.post('/register', data=self.registerForm, follow_redirects=True)
+        result = self.client.post('/register', data=duplicate_email, follow_redirects=True)
+        # Did not redirect
+        self.assert_template_used('register.html')
+        # No success message
+        with self.client.session_transaction() as sess:
+            with self.assertRaises(KeyError):
+                flash_message = dict(sess['_flashes'])
 
 
 if __name__ == '__main__':
