@@ -48,8 +48,6 @@ class RegisterPage(BaseCase):
             with self.assertRaises(KeyError):
                 flash_message = dict(sess['_flashes'])
 
-
-
     def test_duplicate_email(self):
         duplicate_email = dict(username='tester2', email='e@e.com', password='pass', password2='pass')
         result = self.client.post('/register', data=self.registerForm, follow_redirects=True)
