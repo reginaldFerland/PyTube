@@ -1,5 +1,5 @@
 from PyTube import app, db
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from PyTube.forms import RegistrationForm
 from PyTube.models import User
 
@@ -16,6 +16,6 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        #flash('Congratulations, you are now a registered user!')
+        flash('Congratulations, you are now a registered user!')
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
