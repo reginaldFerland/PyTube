@@ -19,3 +19,7 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
+
+@app.route('/login')
+def login():
+    return render_template('login.html')

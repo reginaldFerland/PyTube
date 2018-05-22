@@ -30,7 +30,7 @@ class RegisterPage(BaseCase):
         self.assertTrue(user.check_password("password"))
 
     def test_flash_success(self):
-        result = self.client.post('/register', data=self.registerForm, follow_redirects=True)
+        result = self.client.post('/register', data=self.registerForm)
         with self.client.session_transaction() as sess:
             flash_message = dict(sess['_flashes'])
 
