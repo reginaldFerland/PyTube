@@ -38,4 +38,11 @@ class LoginPage(BaseCase):
         expected_message = 'Invalid username or password'
         self.assertEqual(flash_message['message'], expected_message)
 
+    def test_redirect_logged_in(self):
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.get('/login')
+            self.assertRedirects(result, url_for('index')) 
+
+
       
