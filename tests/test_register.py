@@ -59,6 +59,13 @@ class RegisterPage(BaseCase):
             with self.assertRaises(KeyError):
                 flash_message = dict(sess['_flashes'])
 
+    def test_redirect_logged_in(self):
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.get('/register')
+            self.assertRedirects(result, url_for('index')) 
+
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
