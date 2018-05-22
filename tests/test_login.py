@@ -29,3 +29,13 @@ class LoginPage(BaseCase):
             result = self.client.post('/login', data=loginForm_wrong_password)
             self.assertTrue(current_user.is_anonymous)
 
+    def test_login_flash_error(self):
+        loginForm_wrong_password = dict(username='user', email='user@email.com', password='hunter2')
+        result = self.client.post('/login', data=loginForm_wrong_password)
+        with self.client.session_transaction() as sess:
+            flash_message = dict(sess['_flashes'])
+
+        expected_message = 'Invalid username or password'
+        self.assertEqual(flash_message['message'], expected_message)
+
+      
