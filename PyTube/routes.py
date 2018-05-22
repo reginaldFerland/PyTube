@@ -1,6 +1,6 @@
 from PyTube import app, db
 from flask import render_template, redirect, url_for, flash
-from PyTube.forms import RegistrationForm
+from PyTube.forms import RegistrationForm, LoginForm
 from PyTube.models import User
 
 @app.route('/')
@@ -20,6 +20,9 @@ def register():
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect(url_for('index'))
+    return render_template('login.html', form=form)

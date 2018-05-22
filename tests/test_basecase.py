@@ -18,6 +18,13 @@ class BaseCase(TestCase):
         self.client = app.test_client()
         # Register data
         self.registerForm = dict(username='tester', email='e@e.com', password='pass', password2='pass')
+        
+        # Existing user
+        user = User(username='user', email='user@email.com')
+        user.set_password('password')
+        db.session.add(user)
+        db.session.commit()
+        self.loginForm = dict(username='user', email='user@email.com', password='password')
 
     def tearDown(self):
         db.session.remove()
