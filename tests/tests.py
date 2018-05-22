@@ -50,6 +50,11 @@ class RegisterPage(BaseCase):
         user = User.query.filter_by(username=self.registerForm['username']).first()
         self.assertIsNotNone(user)
         
+    def test_password_hash(self):
+        user = User(username="tester", email="email@email.com")
+        user.set_password("password")
+        self.assertFalse(user.check_password("hunter12"))
+        self.assertTrue(user.check_password("password"))
 
 
 if __name__ == '__main__':
