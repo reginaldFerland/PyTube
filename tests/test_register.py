@@ -16,7 +16,7 @@ class RegisterPage(BaseCase):
 
     def test_register_redirects(self):
         result = self.client.post('/register', data=self.registerForm)
-        self.assertRedirects(result, url_for('index')) 
+        self.assertRedirects(result, url_for('login')) 
 
     def test_register_creates_account(self):
         result = self.client.post('/register', data=self.registerForm)
