@@ -65,6 +65,13 @@ class RegisterPage(BaseCase):
             result = self.client.get('/register')
             self.assertRedirects(result, url_for('index')) 
 
+    def test_redirect_logged_in_post(self):
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.post('/register', data=self.registerForm)
+            self.assertRedirects(result, url_for('index')) 
+        user = User.query.filter_by(username=self.registerForm['username']).first()
+        self.assertIsNone(user)
 
 
 if __name__ == '__main__':

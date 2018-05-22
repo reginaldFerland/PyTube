@@ -1,8 +1,8 @@
 import unittest
 from test_basecase import BaseCase
-#from PyTube import db
+from PyTube import db
 from flask import url_for
-#from PyTube.models import User
+from PyTube.models import User
 from flask_login import current_user
 
 class LoginPage(BaseCase):
@@ -44,5 +44,16 @@ class LoginPage(BaseCase):
             result = self.client.get('/login')
             self.assertRedirects(result, url_for('index')) 
 
+    def test_redirect_logged_in_post(self):
+        user = User(username='user2', email='user2@email.com')
+        user.set_password('password')
+        db.session.add(user)
+        db.session.commit()
+        self.loginForm2 = dict(username='user2', email='user2@email.com', password='password')
 
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.post('/login', data=self.loginForm2)
+            self.assertRedirects(result, url_for('index')) 
+            self.assertEquals(current_user.username, "user")
       
