@@ -4,6 +4,7 @@ import unittest
 from PyTube import app, db
 from flask_testing import TestCase
 from flask import url_for
+from PyTube.models import User
 
 class BaseCase(TestCase):
     def create_app(self):
@@ -40,14 +41,15 @@ class RegisterPage(BaseCase):
         result = self.client.get('/register')
         self.assert_template_used('register.html')
 
-    def test_register_create_account_code(self):
+    def test_register_redirects(self):
         result = self.client.post('/register', data=self.registerForm)
-        self.assertRedirects(result, url_for('index')) #201 means creation but we redirect to login page instead 
+        self.assertRedirects(result, url_for('index')) 
+
+    def test_register_creates_account(self):
+        result = self.client.post('/register', data=self.registerForm)
+        user = User.query.filter_by(username=self.registerForm['username']).first()
+        self.assertIsNotNone(user)
         
-#    def test_login(self):
-
-#    def test_logout(self):
-
 
 
 if __name__ == '__main__':
