@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--debug', '-d', action='store_true', default=False)
     parser.add_argument('--test', '-t', action='store_true', default=False)
-    parser.add_argument('--verbosity', nargs='?', const=2, type=int, default=2, choices=[0,1,2])
+    parser.add_argument('--verbosity', nargs='?', const=2, type=int, default=1, choices=[0,1,2])
     args = parser.parse_args()
     
     # Handle Args

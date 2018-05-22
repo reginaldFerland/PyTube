@@ -3,7 +3,7 @@ import unittest
 from PyTube import db
 from flask import url_for
 from PyTube.models import User
-from tests import BaseCase
+from test_basecase import BaseCase
 
 class RegisterPage(BaseCase):
     def test_register_loads(self):
