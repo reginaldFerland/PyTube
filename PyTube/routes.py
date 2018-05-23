@@ -47,5 +47,6 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/upload')
+@login_required
 def upload():
     return render_template('upload.html')

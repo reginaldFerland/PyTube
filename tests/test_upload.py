@@ -6,11 +6,27 @@ from test_basecase import BaseCase
 
 class UploadPage(BaseCase):
     def test_upload_page_loads(self):
-        result = self.client.get('/upload')
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.get('/upload')
         self.assertEqual(result.status_code, 200) 
 
     def test_upload_page_template(self):
-        result = self.client.get('/upload')
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.get('/upload')
         self.assert_template_used('upload.html')
 
+    def test_upload_requires_login(self):
+        result = self.client.get('/upload')
+        self.assertEqual(result.status_code, 302)
 
+#    def test_upload_redirects_to_media(self):
+#        result = self.client.post('/upload', data=self.uploadForm)
+#        self.assertRedirects(result, url_for('media')) 
+
+#    def test_upload_creates_media(self):
+#        result = self.client.post('/upload', data=self.uploadForm)
+#        media = Media.query.filter_by(name=self.uploadForm['name']).first()
+#        self.assertIsNotNone(media)
+ 
