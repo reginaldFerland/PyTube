@@ -5,10 +5,10 @@ import unittest
 import argparse
 
 @app.shell_context_processor
-def make_shell_context():
+def make_shell_context(): # pragma: no cover
     return {'db': db, 'User': User, 'Post': Post}
 
-def run(debug=False):
+def run(debug=False): # pragma: no cover
    app.run(host='0.0.0.0', debug=debug)
 
 def test(verbosity):
