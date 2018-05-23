@@ -17,6 +17,12 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)    
 
+class Media(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True)
+    path = db.Column(db.String(128), index=True, unique=True)
+    type = db.Column(db.String(32))
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))

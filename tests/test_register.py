@@ -59,7 +59,7 @@ class RegisterPage(BaseCase):
             with self.assertRaises(KeyError):
                 flash_message = dict(sess['_flashes'])
 
-    def test_redirect_logged_in(self):
+    def test_redirect_logged_in_get(self):
         with self.client:
             self.client.post('/login', data=self.loginForm)
             result = self.client.get('/register')

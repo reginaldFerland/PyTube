@@ -68,4 +68,3 @@ class LoginPage(BaseCase):
             self.client.get('/logout')
             self.assertTrue(current_user.is_anonymous)
 
- 
