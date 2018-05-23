@@ -55,5 +55,17 @@ class LoginPage(BaseCase):
             self.client.post('/login', data=self.loginForm)
             result = self.client.post('/login', data=self.loginForm2)
             self.assertRedirects(result, url_for('index')) 
-            self.assertEquals(current_user.username, "user")
-      
+            self.assertEquals(current_user.username, self.loginForm['username'])
+
+    def test_log_out_requires_login(self):
+        result = self.client.get('/logout', follow_redirects=True)
+        self.assert_template_used('login.html')
+
+    def test_log_out_loads(self):
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            self.assertEquals(current_user.username, self.loginForm['username'])
+            self.client.get('/logout')
+            self.assertTrue(current_user.is_anonymous)
+
+ 
