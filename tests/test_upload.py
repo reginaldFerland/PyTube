@@ -59,4 +59,3 @@ class UploadPage(BaseCase):
         self.assertTrue(os.path.isfile(media.path))
 
 
-
