@@ -28,7 +28,8 @@ class UploadPage(BaseCase):
         with self.client:
             self.client.post('/login', data=self.loginForm)
             result = self.client.post('/upload', data=uploadForm)
-            self.assertRedirects(result, url_for('media')) 
+            media = Media.query.filter_by(name=uploadForm['name']).first() 
+            self.assertRedirects(result, url_for('media', mediaID=media.id)) 
 
     def test_upload_creates_media(self):
         filename = open("./tests/upload_file.txt")

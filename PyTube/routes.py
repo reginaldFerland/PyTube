@@ -75,9 +75,9 @@ def upload():
         flash('Media Uploaded!')
         
         # Redirect to uploaded file
-        return redirect(url_for('media'))
+        return redirect(url_for('media', mediaID=media.id))
     return render_template('upload.html')
 
-@app.route('/media')
-def media():
+@app.route('/media/<int:mediaID>')
+def media(mediaID):
     return "MEDIA"
