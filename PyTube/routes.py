@@ -72,6 +72,7 @@ def upload():
 
         # Flash sucessful upload
 #        print("id:", media.id)
+        flash('Media Uploaded!')
         
         # Redirect to uploaded file
         return redirect(url_for('media'))

@@ -58,4 +58,17 @@ class UploadPage(BaseCase):
         self.assertTrue(os.path.exists(media.path))
         self.assertTrue(os.path.isfile(media.path))
 
+    def test_upload_flash_message(self):
+        filename = open("./tests/upload_file.txt")
+        uploadForm = dict(name='text',media=filename)
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.post('/upload', data=uploadForm)
+            
+        with self.client.session_transaction() as sess:
+            flash_message = dict(sess['_flashes'])
+
+        expected_message = 'Media Uploaded!' 
+        self.assertEqual(flash_message['message'], expected_message)
+
 
