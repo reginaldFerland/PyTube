@@ -21,9 +21,13 @@ class UploadPage(BaseCase):
         result = self.client.get('/upload')
         self.assertEqual(result.status_code, 302)
 
-#    def test_upload_redirects_to_media(self):
-#        result = self.client.post('/upload', data=self.uploadForm)
-#        self.assertRedirects(result, url_for('media')) 
+    def test_upload_redirects_to_media(self):
+        filename = open("./file.txt")
+        uploadForm = dict(name='picture',media=filename)
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.post('/upload', data=uploadForm)
+            self.assertRedirects(result, url_for('media')) 
 
 #    def test_upload_creates_media(self):
 #        result = self.client.post('/upload', data=self.uploadForm)

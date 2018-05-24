@@ -1,6 +1,6 @@
 from PyTube import app, db
 from flask import render_template, redirect, url_for, flash
-from PyTube.forms import RegistrationForm, LoginForm
+from PyTube.forms import RegistrationForm, LoginForm, UploadForm
 from PyTube.models import User
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -46,7 +46,17 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/upload')
+@app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
+    form = UploadForm()
+    if form.validate_on_submit():
+        # Handle upload logic
+        
+        # Redirect to uploaded file
+        return redirect(url_for('media'))
     return render_template('upload.html')
+
+@app.route('/media')
+def media():
+    return "MEDIA"

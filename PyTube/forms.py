@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from PyTube.models import User
+from flask_wtf.file import FileField, FileRequired
+from werkzeug.utils import secure_filename
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -26,3 +28,8 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
+class UploadForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+    media = FileField(validators=[FileRequired()])
+    submit = SubmitField('Upload')
