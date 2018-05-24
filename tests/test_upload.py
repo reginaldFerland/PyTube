@@ -22,7 +22,7 @@ class UploadPage(BaseCase):
         self.assertEqual(result.status_code, 302)
 
     def test_upload_redirects_to_media(self):
-        filename = open("./file.txt")
+        filename = open("./tests/upload_file.txt")
         uploadForm = dict(name='picture',media=filename)
         with self.client:
             self.client.post('/login', data=self.loginForm)
