@@ -1,8 +1,9 @@
 from PyTube import app, db
 from flask import render_template, redirect, url_for, flash
 from PyTube.forms import RegistrationForm, LoginForm, UploadForm
-from PyTube.models import User
+from PyTube.models import User, Media
 from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.utils import secure_filename
 
 @app.route('/')
 @app.route('/index')
@@ -52,6 +53,15 @@ def upload():
     form = UploadForm()
     if form.validate_on_submit():
         # Handle upload logic
+        newFile = form.media.data
+        path = "./tests/uploads/"
+        name = form.name.data
+        media = Media(name=name, path=path, type=newFile.mimetype)
+        db.session.add(media)
+        db.session.commit()
+
+        # Flash sucessful upload
+#        print("id:", media.id)
         
         # Redirect to uploaded file
         return redirect(url_for('media'))

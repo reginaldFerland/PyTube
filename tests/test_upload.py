@@ -29,8 +29,14 @@ class UploadPage(BaseCase):
             result = self.client.post('/upload', data=uploadForm)
             self.assertRedirects(result, url_for('media')) 
 
-#    def test_upload_creates_media(self):
-#        result = self.client.post('/upload', data=self.uploadForm)
-#        media = Media.query.filter_by(name=self.uploadForm['name']).first()
-#        self.assertIsNotNone(media)
- 
+    def test_upload_creates_media(self):
+        filename = open("./tests/upload_file.txt")
+        uploadForm = dict(name='text',media=filename)
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.post('/upload', data=uploadForm)
+            media = Media.query.filter_by(name=uploadForm['name']).first() 
+            self.assertIsNotNone(media)
+           
+
+
