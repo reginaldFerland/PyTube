@@ -14,7 +14,8 @@ class TestMedia(BaseCase):
         with self.client:
             self.client.post('/login', data=self.loginForm)
             self.client.post('/upload', data=self.uploadForm)
-            result = self.client.get('/media/1')
+
+        result = self.client.get('/media/1')
         self.assertEqual(result.status_code, 200) 
 
     def test_media_page_template(self):
@@ -24,7 +25,8 @@ class TestMedia(BaseCase):
         with self.client:
             self.client.post('/login', data=self.loginForm)
             self.client.post('/upload', data=self.uploadForm)
-            result = self.client.get('/media/1')
+            
+        result = self.client.get('/media/1')
         self.assert_template_used('media.html')
 
 
