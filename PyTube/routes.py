@@ -76,7 +76,7 @@ def upload():
         
         # Redirect to uploaded file
         return redirect(url_for('media', mediaID=media.id))
-    return render_template('upload.html')
+    return render_template('upload.html', form=form)
 
 @app.route('/media/<int:mediaID>')
 def media(mediaID):
