@@ -3,6 +3,7 @@ from PyTube import db
 from flask import url_for
 from PyTube.models import User, Media
 from test_basecase import BaseCase
+import os.path
 
 class UploadPage(BaseCase):
     def test_upload_page_loads(self):
@@ -38,5 +39,24 @@ class UploadPage(BaseCase):
             media = Media.query.filter_by(name=uploadForm['name']).first() 
             self.assertIsNotNone(media)
            
+    def test_upload_uses_correct_name(self):
+        filename = open("./tests/upload_file.txt")
+        uploadForm = dict(name='text',media=filename)
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.post('/upload', data=uploadForm)
+            media = Media.query.filter_by(name=uploadForm['name']).first() 
+            self.assertEquals(media.name, uploadForm['name'])
+
+    def test_upload_creates_file(self):
+        filename = open("./tests/upload_file.txt")
+        uploadForm = dict(name='text',media=filename)
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            result = self.client.post('/upload', data=uploadForm)
+            media = Media.query.filter_by(name=uploadForm['name']).first() 
+        self.assertTrue(os.path.exists(media.path))
+        self.assertTrue(os.path.isfile(media.path))
+
 
 

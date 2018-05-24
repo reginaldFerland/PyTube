@@ -5,12 +5,14 @@ from PyTube import app, db
 from flask_testing import TestCase
 from flask import url_for
 from PyTube.models import User
+import os
 
 class BaseCase(TestCase):
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
+        app.config['UPLOAD_FOLDER'] = "./tests/uploads/"
         return app
 
     def setUp(self):
@@ -26,10 +28,26 @@ class BaseCase(TestCase):
         db.session.commit()
         self.loginForm = dict(username='user', email='user@email.com', password='password')
 
+        # Create upload folder
+        if not os.path.exists('./tests/uploads/'):
+            os.makedirs('./tests/uploads/')
+
     def tearDown(self):
         db.session.remove()
         db.drop_all()
 
+        # Delete files in upload folder
+        folder = './tests/uploads/'
+        for the_file in os.listdir(folder):
+            file_path = os.path.join(folder, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+            except Exception as e:
+                print(e)
+
+        
 class HomePage(BaseCase):
     def test_home_page_loads(self):
         result = self.client.get('/') 
