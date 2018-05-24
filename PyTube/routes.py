@@ -80,4 +80,4 @@ def upload():
 
 @app.route('/media/<int:mediaID>')
 def media(mediaID):
-    return "MEDIA"
+    return render_template('media.html')
