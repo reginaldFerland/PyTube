@@ -1,5 +1,5 @@
 from PyTube import app, db
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, send_from_directory, send_file
 from PyTube.forms import RegistrationForm, LoginForm, UploadForm
 from PyTube.models import User, Media
 from flask_login import current_user, login_user, logout_user, login_required
@@ -82,4 +82,10 @@ def upload():
 def media(mediaID):
     media = Media.query.filter_by(id=mediaID).first_or_404()
     path = media.path
-    return render_template('media.html',path=path)
+    return render_template('media.html', id=mediaID)
+
+@app.route('/files/<int:mediaID>')
+def files(mediaID):
+    media = Media.query.filter_by(id=mediaID).first_or_404()
+    path = media.path
+    return send_file(path) # send_from_directory(media.path)

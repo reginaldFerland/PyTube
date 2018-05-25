@@ -2,6 +2,6 @@
 
 {% block content %}
 
-    <img src="{{ path }}"></img>
+    <img src="{{ url_for('files', mediaID=id) }}"></img>
  
 {% endblock %}
