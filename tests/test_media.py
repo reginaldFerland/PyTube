@@ -20,54 +20,46 @@ class TestMedia(BaseCase):
         # Video file
         self.mp4file = open("./tests/files/upload_video.mp4", mode='rb')
         self.upload_mp4 = dict(name='video',media=self.mp4file)
+    
+        # Logged in client
+        with self.client as self.logged_in:
+            self.logged_in.post('/login', data=self.loginForm)
  
     def test_media_page_loads(self):
-        with self.client:
-            self.client.post('/login', data=self.loginForm)
-            self.client.post('/upload', data=self.upload_txt)
+        self.logged_in.post('/upload', data=self.upload_txt)
 
         result = self.client.get('/media/1')
         self.assertEqual(result.status_code, 200) 
 
     def test_media_page_template(self):
-        with self.client:
-            self.client.post('/login', data=self.loginForm)
-            self.client.post('/upload', data=self.upload_txt)
+        self.logged_in.post('/upload', data=self.upload_txt)
             
         result = self.client.get('/media/1')
         self.assert_template_used('media.html')
 
     def test_media_display_jpg(self):
-        with self.client:
-            self.client.post('/login', data=self.loginForm)
-            self.client.post('/upload', data=self.upload_jpg)
+        self.logged_in.post('/upload', data=self.upload_jpg)
             
         result = self.client.get('/media/1')
         self.assertIn("<img", str(result.data))
         self.assertIn("</img>", str(result.data))
 
     def test_media_display_mp4(self):
-        with self.client:
-            self.client.post('/login', data=self.loginForm)
-            self.client.post('/upload', data=self.upload_mp4)
+        self.logged_in.post('/upload', data=self.upload_mp4)
             
         result = self.client.get('/media/1')
         self.assertIn("<video", str(result.data))
         self.assertIn("</video>", str(result.data))
 
     def test_media_uses_picture(self):
-        with self.client:
-            self.client.post('/login', data=self.loginForm)
-            self.client.post('/upload', data=self.upload_jpg)
+        self.logged_in.post('/upload', data=self.upload_jpg)
             
         result = self.client.get('/media/1')
         self.assertIn("<picture", str(result.data))
         self.assertIn("</picture>", str(result.data))
 
     def test_media_video_controls(self):
-        with self.client:
-            self.client.post('/login', data=self.loginForm)
-            self.client.post('/upload', data=self.upload_mp4)
+        self.logged_in.post('/upload', data=self.upload_mp4)
             
         result = self.client.get('/media/1')
         self.assertIn("controls", str(result.data))
