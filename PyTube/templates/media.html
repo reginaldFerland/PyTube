@@ -7,7 +7,7 @@
     <img src="{{ url_for('files', mediaID=id) }}"></img>
     </picture>
     {% elif type == 'video' %}
-    <video src="{{ url_for('files', mediaID=id) }}"></video>
+    <video src="{{ url_for('files', mediaID=id) }}" controls></video>
     {% elif type == 'text' %}
     
     {% endif %}
