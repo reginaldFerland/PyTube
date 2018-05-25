@@ -2,6 +2,12 @@
 
 {% block content %}
 
+    {% if type == 'image'  %}
     <img src="{{ url_for('files', mediaID=id) }}"></img>
+    {% elif type == 'video' %}
+    <video src="{{ url_for('files', mediaID=id) }}"></video>
+    {% elif type == 'text' %}
+    
+    {% endif %}
  
 {% endblock %}

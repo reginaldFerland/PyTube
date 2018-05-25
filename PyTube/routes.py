@@ -71,7 +71,6 @@ def upload():
         newFile.save(media.path)
 
         # Flash sucessful upload
-#        print("id:", media.id)
         flash('Media Uploaded!')
         
         # Redirect to uploaded file
@@ -82,7 +81,14 @@ def upload():
 def media(mediaID):
     media = Media.query.filter_by(id=mediaID).first_or_404()
     path = media.path
-    return render_template('media.html', id=mediaID)
+    type = media.type
+    if 'image' in type:
+        type = 'image'
+    elif 'video' in type:
+        type = 'video'
+    elif 'text' in type:
+        type = 'text'
+    return render_template('media.html', id=mediaID, type=type)
 
 @app.route('/files/<int:mediaID>')
 def files(mediaID):
