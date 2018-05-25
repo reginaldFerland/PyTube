@@ -53,4 +53,16 @@ class TestMedia(BaseCase):
         self.assertIn("<video", str(result.data))
         self.assertIn("</video>", str(result.data))
 
+    def test_media_uses_picture(self):
+        filename = open("./tests/files/upload_picture.jpg", mode='rb')
+        self.uploadForm = dict(name='picture',media=filename)
+ 
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            self.client.post('/upload', data=self.uploadForm)
+            
+        result = self.client.get('/media/1')
+        self.assertIn("<picture", str(result.data))
+        self.assertIn("</picture>", str(result.data))
+
 
