@@ -23,7 +23,7 @@ class UploadPage(BaseCase):
         self.assertEqual(result.status_code, 302)
 
     def test_upload_redirects_to_media(self):
-        filename = open("./tests/upload_file.txt")
+        filename = open("./tests/files/upload_file.txt")
         uploadForm = dict(name='picture',media=filename)
         with self.client:
             self.client.post('/login', data=self.loginForm)
@@ -32,7 +32,7 @@ class UploadPage(BaseCase):
             self.assertRedirects(result, url_for('media', mediaID=media.id)) 
 
     def test_upload_creates_media(self):
-        filename = open("./tests/upload_file.txt")
+        filename = open("./tests/files/upload_file.txt")
         uploadForm = dict(name='text',media=filename)
         with self.client:
             self.client.post('/login', data=self.loginForm)
@@ -41,7 +41,7 @@ class UploadPage(BaseCase):
             self.assertIsNotNone(media)
            
     def test_upload_uses_correct_name(self):
-        filename = open("./tests/upload_file.txt")
+        filename = open("./tests/files/upload_file.txt")
         uploadForm = dict(name='text',media=filename)
         with self.client:
             self.client.post('/login', data=self.loginForm)
@@ -50,7 +50,7 @@ class UploadPage(BaseCase):
             self.assertEquals(media.name, uploadForm['name'])
 
     def test_upload_creates_file(self):
-        filename = open("./tests/upload_file.txt")
+        filename = open("./tests/files/upload_file.txt")
         uploadForm = dict(name='text',media=filename)
         with self.client:
             self.client.post('/login', data=self.loginForm)
@@ -60,7 +60,7 @@ class UploadPage(BaseCase):
         self.assertTrue(os.path.isfile(media.path))
 
     def test_upload_flash_message(self):
-        filename = open("./tests/upload_file.txt")
+        filename = open("./tests/files/upload_file.txt")
         uploadForm = dict(name='text',media=filename)
         with self.client:
             self.client.post('/login', data=self.loginForm)

@@ -80,4 +80,6 @@ def upload():
 
 @app.route('/media/<int:mediaID>')
 def media(mediaID):
-    return render_template('media.html')
+    media = Media.query.filter_by(id=mediaID).first_or_404()
+    path = media.path
+    return render_template('media.html',path=path)

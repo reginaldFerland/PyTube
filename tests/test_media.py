@@ -8,7 +8,7 @@ from test_basecase import BaseCase
 
 class TestMedia(BaseCase):
     def test_media_page_loads(self):
-        filename = open("./tests/upload_file.txt")
+        filename = open("./tests/files/upload_file.txt")
         self.uploadForm = dict(name='picture',media=filename)
  
         with self.client:
@@ -19,7 +19,7 @@ class TestMedia(BaseCase):
         self.assertEqual(result.status_code, 200) 
 
     def test_media_page_template(self):
-        filename = open("./tests/upload_file.txt")
+        filename = open("./tests/files/upload_file.txt")
         self.uploadForm = dict(name='picture',media=filename)
  
         with self.client:
@@ -29,4 +29,14 @@ class TestMedia(BaseCase):
         result = self.client.get('/media/1')
         self.assert_template_used('media.html')
 
-
+    def test_media_display_jpg(self):
+        filename = open("./tests/files/upload_picture.jpg", mode='rb')
+        self.uploadForm = dict(name='picture',media=filename)
+ 
+        with self.client:
+            self.client.post('/login', data=self.loginForm)
+            self.client.post('/upload', data=self.uploadForm)
+            
+        result = self.client.get('/media/1')
+        self.assertIn("<img", str(result.data))
+        self.assertIn("</img>", str(result.data))
