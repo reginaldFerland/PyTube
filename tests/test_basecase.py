@@ -29,7 +29,7 @@ class BaseCase(TestCase):
         self.loginForm = dict(username='user', email='user@email.com', password='password')
 
         # Create upload folder
-        if not os.path.exists('./tests/uploads/'):
+        if not os.path.exists('./tests/uploads/'): #pragma: no cover
             os.makedirs('./tests/uploads/')
 
     def tearDown(self):
@@ -41,10 +41,10 @@ class BaseCase(TestCase):
         for the_file in os.listdir(folder):
             file_path = os.path.join(folder, the_file)
             try:
-                if os.path.isfile(file_path):
+                if os.path.isfile(file_path): #pragma: no cover
                     os.unlink(file_path)
                 #elif os.path.isdir(file_path): shutil.rmtree(file_path)
-            except Exception as e:
+            except Exception as e: #pragma: no cover
                 print(e)
 
         
