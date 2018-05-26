@@ -30,8 +30,13 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     def follow(self, user):
+        if self.is_following(user):
+            raise Exception("already following")
         self.followed.append(user)
+        db.session.commit()
         
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
     def __repr__(self):
         return '<User {}>'.format(self.username)    

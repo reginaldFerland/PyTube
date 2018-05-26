@@ -28,3 +28,12 @@ class TestUser(BaseCase):
         
         self.assertTrue(bob.followed.filter(followers.c.followed_id == self.user.id).count() > 0)
         self.assertTrue(bob.followed.all()[0].username == "user")
+
+    def test_user_is_following(self):
+        bob = User(username="bob", email="bob@bob.com")
+        bob.set_password("hunter2")
+        bob.save()
+        bob.follow(self.user)
+        
+        with self.assertRaises(Exception):
+            bob.follow(self.user)
