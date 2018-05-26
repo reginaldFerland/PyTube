@@ -27,4 +27,4 @@ class TestUser(BaseCase):
         bob.follow(self.user)
         
         self.assertTrue(bob.followed.filter(followers.c.followed_id == self.user.id).count() > 0)
-        #self.assertEqual(following.all.first().username, "user")
+        self.assertTrue(bob.followed.all()[0].username == "user")
