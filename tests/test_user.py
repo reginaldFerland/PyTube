@@ -4,7 +4,7 @@ from flask import url_for
 from PyTube.models import User, user_exists
 from test_basecase import BaseCase
 
-class TestAccount(BaseCase):
+class TestUser(BaseCase):
     def setUp(self):
         super(TestAccount, self).setUp()
 
@@ -20,3 +20,4 @@ class TestAccount(BaseCase):
 
         self.assertTrue(user_exists("bob"))
 
+    def test_user_
