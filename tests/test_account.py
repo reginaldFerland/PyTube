@@ -12,6 +12,10 @@ class TestAccount(BaseCase):
         self.assertTrue(user_exists("user"))
         self.assertFalse(user_exists("bob"))
        
+    def test_user_save(self):
+        user = User(username="bob", email="bob@bob.com")
+        user.set_password("hunter2")
+        user.save()
 
-#    def test_user_save(self):
+        self.assertTrue(user_exists("bob"))
 
