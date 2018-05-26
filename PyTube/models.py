@@ -29,3 +29,9 @@ class Media(db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+def user_exists(username):
+    if User.query.filter_by(username=username).first() is None:
+        return False
+    else:
+        return True
