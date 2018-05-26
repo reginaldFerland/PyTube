@@ -22,9 +22,9 @@ class BaseCase(TestCase):
         self.registerForm = dict(username='tester', email='e@e.com', password='pass', password2='pass')
         
         # Existing user
-        user = User(username='user', email='user@email.com')
-        user.set_password('password')
-        db.session.add(user)
+        self.user = User(username='user', email='user@email.com')
+        self.user.set_password('password')
+        db.session.add(self.user)
         db.session.commit()
         self.loginForm = dict(username='user', email='user@email.com', password='password')
 
