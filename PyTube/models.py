@@ -45,6 +45,9 @@ class User(UserMixin, db.Model):
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
+    def get_followers(self):
+        return self.followed.all()
+
     def __repr__(self):
         return '<User {}>'.format(self.username)    
 
