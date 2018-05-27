@@ -1,7 +1,7 @@
 import unittest
 #from PyTube import db
 #from flask import url_for
-#from PyTube.models import User, Media
+from PyTube.models import User, Media
 from test_basecase import BaseCase
 #import os.path
 
@@ -64,4 +64,8 @@ class TestMedia(BaseCase):
         result = self.client.get('/media/1')
         self.assertIn("controls", str(result.data))
 
+    def test_media_username(self):
+        self.logged_in.post('/upload', data=self.upload_mp4)
 
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        self.assertEquals(media.user_id, self.user.id)

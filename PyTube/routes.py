@@ -56,7 +56,8 @@ def upload():
         newFile = form.media.data
         path = app.config['UPLOAD_FOLDER']
         name = form.name.data
-        media = Media(name=name, type=newFile.mimetype)
+        userID = current_user.id
+        media = Media(name=name, type=newFile.mimetype, user_id=userID)
         db.session.add(media)
         db.session.commit()
         
