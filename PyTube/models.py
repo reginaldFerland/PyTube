@@ -35,6 +35,13 @@ class User(UserMixin, db.Model):
         self.followed.append(user)
         db.session.commit()
         
+    def unfollow(self, user):
+        if not self.is_following(user):
+            raise Exception("not following")
+        self.followed.remove(user)
+        db.session.commit()
+ 
+
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 

@@ -47,3 +47,13 @@ class TestUser(BaseCase):
         bob.follow(self.user)
         self.assertTrue(bob.is_following(self.user))
  
+    def test_user_unfollow(self):
+        bob = User(username="bob", email="bob@bob.com")
+        bob.set_password("hunter2")
+        bob.save()
+
+        bob.follow(self.user)
+        self.assertTrue(bob.is_following(self.user))
+        bob.unfollow(self.user)
+        self.assertFalse(bob.is_following(self.user))
+        
