@@ -1,6 +1,7 @@
 from PyTube import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
 
 # Creating many to many 
 followers = db.Table('followers',
@@ -14,6 +15,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     about = db.Column(db.String(256))
+    join_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),

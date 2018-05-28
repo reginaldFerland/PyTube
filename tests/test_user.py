@@ -3,6 +3,7 @@ from PyTube import db
 from flask import url_for
 from PyTube.models import User, user_exists, followers
 from test_basecase import BaseCase
+from datetime import datetime
 
 class TestUser(BaseCase):
     def setUp(self):
@@ -94,4 +95,7 @@ class TestUser(BaseCase):
         result = self.client.get('/user/{}'.format(self.user.username))
         self.assertIn(self.user.about, str(result.data))
 
-       
+    def test_user_date_joined(self):
+        timestamp = datetime.utcnow()
+        self.user.join_time = timestamp
+        self.assertEquals(timestamp, self.user.join_time)
