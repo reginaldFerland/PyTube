@@ -89,7 +89,9 @@ def media(mediaID):
         type = 'video'
     elif 'text' in type:
         type = 'text'
-    return render_template('media.html', id=mediaID, type=type)
+
+    user = User.query.filter_by(id=media.user_id).first()
+    return render_template('media.html', id=mediaID, type=type, username=user.username)
 
 @app.route('/files/<int:mediaID>')
 def files(mediaID):
