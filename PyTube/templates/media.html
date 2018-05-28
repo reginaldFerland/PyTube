@@ -2,13 +2,15 @@
 
 {% block content %}
 
-    {% if type == 'image'  %}
+    <h1>{{media.name}}</h1>
+
+    {% if 'image' in media.type %}
     <picture>
-    <img src="{{ url_for('files', mediaID=id) }}"></img>
+    <img src="{{ url_for('files', mediaID=media.id) }}"></img>
     </picture>
-    {% elif type == 'video' %}
-    <video src="{{ url_for('files', mediaID=id) }}" controls></video>
-    {% elif type == 'text' %}
+    {% elif 'video' in media.type %}
+    <video src="{{ url_for('files', mediaID=media.id) }}" controls></video>
+    {% elif 'text' in media.type  %}
     
     {% endif %}
 

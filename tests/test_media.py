@@ -43,6 +43,14 @@ class TestMedia(BaseCase):
         result = self.client.get('/media/1')
         self.assertIn(self.user.username, str(result.data))
 
+    def test_media_page_display_name(self):
+        self.logged_in.post('/upload', data=self.upload_txt)
+            
+        result = self.client.get('/media/1')
+        self.assertIn(self.upload_txt['name'], str(result.data))
+
+       
+
     def test_media_display_jpg(self):
         self.logged_in.post('/upload', data=self.upload_jpg)
             
