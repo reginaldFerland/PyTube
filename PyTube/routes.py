@@ -98,3 +98,8 @@ def files(mediaID):
     media = Media.query.filter_by(id=mediaID).first_or_404()
     path = media.path
     return send_file(path) # send_from_directory(media.path)
+
+@app.route('/user/<string:username>')
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user_profile.html', user=user)

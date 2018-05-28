@@ -79,3 +79,13 @@ class TestUser(BaseCase):
         
         self.assertTrue(bob.get_followers() == [self.user, user2])
              
+
+    def test_user_page_loads(self):
+        result = self.client.get('/user/{}'.format(self.user.username))
+        self.assertEqual(result.status_code, 200) 
+
+    def test_user_page_template(self):
+        result = self.client.get('/user/{}'.format(self.user.username))
+        self.assert_template_used('user_profile.html')
+
+
