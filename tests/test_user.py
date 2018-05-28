@@ -97,5 +97,8 @@ class TestUser(BaseCase):
 
     def test_user_date_joined(self):
         timestamp = datetime.utcnow()
-        self.user.join_time = timestamp
-        self.assertEquals(timestamp, self.user.join_time)
+        self.user.join_date = timestamp
+        self.assertEquals(timestamp, self.user.join_date)
+
+    def test_user_date_joined_recently(self):
+        self.assertTrue(self.user.join_date < datetime.utcnow())
