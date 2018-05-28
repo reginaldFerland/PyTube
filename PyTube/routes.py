@@ -91,8 +91,7 @@ def media(mediaID):
         type = 'text'
 
     user = User.query.filter_by(id=media.user_id).first()
-    media.viewcount += 1
-    db.session.commit()
+    media.increment_viewcount()
     return render_template('media.html', media=media, username=user.username)
 
 @app.route('/files/<int:mediaID>')

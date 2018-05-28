@@ -61,7 +61,11 @@ class Media(db.Model):
     type = db.Column(db.String(32))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     public = db.Column(db.Boolean)
-    viewcount = db.Column(db.Integer, autoincrement=True, default=0)
+    viewcount = db.Column(db.Integer, default=0)
+
+    def increment_viewcount(self):
+        self.viewcount = self.viewcount + 1
+        db.session.commit()
 
     def __repr__(self):
         return '<Media {}>'.format(self.name)
