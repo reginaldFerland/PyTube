@@ -1,10 +1,6 @@
 import unittest
-#from PyTube import db
-#from flask import url_for
 from PyTube.models import User, Media
 from test_basecase import BaseCase
-#import os.path
-
 
 class TestMedia(BaseCase):
     def setUp(self):
@@ -48,8 +44,6 @@ class TestMedia(BaseCase):
             
         result = self.client.get('/media/1')
         self.assertIn(self.upload_txt['name'], str(result.data))
-
-       
 
     def test_media_display_jpg(self):
         self.logged_in.post('/upload', data=self.upload_jpg)
@@ -97,4 +91,13 @@ class TestMedia(BaseCase):
         media = Media.query.filter_by(name=upload_false['name']).first()
         self.assertFalse(media.public)
 
-      
+    def test_media_viewcount(self):      
+        self.logged_in.post('/upload', data=self.upload_mp4)
+
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        self.assertEquals(media.viewcount, 0)
+        result = self.client.get('/media/1')
+        self.assertEquals(media.viewcount, 1)
+        result = self.client.get('/media/1')
+        self.assertEquals(media.viewcount, 2)
+
