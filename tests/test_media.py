@@ -69,3 +69,11 @@ class TestMedia(BaseCase):
 
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
         self.assertEquals(media.user_id, self.user.id)
+
+    def test_media_public(self):
+        self.logged_in.post('/upload', data=self.upload_mp4)
+
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        self.assertTrue(media.public)
+
+       

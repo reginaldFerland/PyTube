@@ -57,6 +57,7 @@ class Media(db.Model):
     path = db.Column(db.String(128), index=True, unique=True)
     type = db.Column(db.String(32))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    public = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
         return '<Media {}>'.format(self.name)
