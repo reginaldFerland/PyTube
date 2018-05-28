@@ -88,4 +88,10 @@ class TestUser(BaseCase):
         result = self.client.get('/user/{}'.format(self.user.username))
         self.assert_template_used('user_profile.html')
 
+    def test_user_about(self):
+        self.user.about = "ABOUT STUFF"
+        db.session.commit()
+        result = self.client.get('/user/{}'.format(self.user.username))
+        self.assertIn(self.user.about, str(result.data))
 
+       
