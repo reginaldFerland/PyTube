@@ -24,7 +24,7 @@ class UploadPage(BaseCase):
 
     def test_upload_redirects_to_media(self):
         filename = open("./tests/files/upload_file.txt")
-        uploadForm = dict(name='picture',media=filename)
+        uploadForm = dict(name='picture',media=filename, public=True)
         with self.client:
             self.client.post('/login', data=self.loginForm)
             result = self.client.post('/upload', data=uploadForm)
@@ -33,7 +33,7 @@ class UploadPage(BaseCase):
 
     def test_upload_creates_media(self):
         filename = open("./tests/files/upload_file.txt")
-        uploadForm = dict(name='text',media=filename)
+        uploadForm = dict(name='text',media=filename, public=True)
         with self.client:
             self.client.post('/login', data=self.loginForm)
             result = self.client.post('/upload', data=uploadForm)
@@ -42,7 +42,7 @@ class UploadPage(BaseCase):
            
     def test_upload_uses_correct_name(self):
         filename = open("./tests/files/upload_file.txt")
-        uploadForm = dict(name='text',media=filename)
+        uploadForm = dict(name='text',media=filename, public=True)
         with self.client:
             self.client.post('/login', data=self.loginForm)
             result = self.client.post('/upload', data=uploadForm)
@@ -51,7 +51,7 @@ class UploadPage(BaseCase):
 
     def test_upload_creates_file(self):
         filename = open("./tests/files/upload_file.txt")
-        uploadForm = dict(name='text',media=filename)
+        uploadForm = dict(name='text',media=filename, public=True)
         with self.client:
             self.client.post('/login', data=self.loginForm)
             result = self.client.post('/upload', data=uploadForm)
@@ -61,7 +61,7 @@ class UploadPage(BaseCase):
 
     def test_upload_flash_message(self):
         filename = open("./tests/files/upload_file.txt")
-        uploadForm = dict(name='text',media=filename)
+        uploadForm = dict(name='text',media=filename, public=True)
         with self.client:
             self.client.post('/login', data=self.loginForm)
             result = self.client.post('/upload', data=uploadForm)

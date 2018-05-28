@@ -32,4 +32,5 @@ class LoginForm(FlaskForm):
 class UploadForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     media = FileField(validators=[FileRequired()])
+    public = BooleanField('Public', default=True, false_values=[False, 'false', 'False'])
     submit = SubmitField('Upload')

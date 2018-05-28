@@ -12,14 +12,14 @@ class TestMedia(BaseCase):
         # Files and upload forms
         # Text file
         self.textfile = open("./tests/files/upload_file.txt")
-        self.upload_txt = dict(name='picture',media=self.textfile)
+        self.upload_txt = dict(name='picture',media=self.textfile, public=True)
         # Picture file
         self.jpgfile = open("./tests/files/upload_picture.jpg", mode='rb')
-        self.upload_jpg = dict(name='picture',media=self.jpgfile)
+        self.upload_jpg = dict(name='picture',media=self.jpgfile, public=True)
  
         # Video file
         self.mp4file = open("./tests/files/upload_video.mp4", mode='rb')
-        self.upload_mp4 = dict(name='video',media=self.mp4file)
+        self.upload_mp4 = dict(name='video',media=self.mp4file, public=True)
     
         # Logged in client
         with self.client as self.logged_in:
@@ -76,4 +76,11 @@ class TestMedia(BaseCase):
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
         self.assertTrue(media.public)
 
-       
+    def test_media_public_set_false(self):
+        upload_false = dict(name='false',media=self.mp4file, public=False)
+        self.logged_in.post('/upload', data=upload_false)
+
+        media = Media.query.filter_by(name=upload_false['name']).first()
+        self.assertFalse(media.public)
+
+      
