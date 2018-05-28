@@ -101,3 +101,11 @@ class TestMedia(BaseCase):
         result = self.client.get('/media/1')
         self.assertEquals(media.viewcount, 2)
 
+    def test_media_viewcount_display(self):      
+        self.logged_in.post('/upload', data=self.upload_mp4)
+
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        result = self.client.get('/media/1')
+        self.assertIn("Views: ", str(result.data))
+        self.assertIn(str(media.viewcount), str(result.data))
+
