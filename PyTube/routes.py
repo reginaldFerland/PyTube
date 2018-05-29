@@ -1,7 +1,7 @@
 from PyTube import app, db
 from flask import render_template, redirect, url_for, flash, send_from_directory, send_file
 from PyTube.forms import RegistrationForm, LoginForm, UploadForm
-from PyTube.models import User, Media
+from PyTube.models import User, Media, browse
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import os.path
@@ -9,7 +9,11 @@ import os.path
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    user = None
+    if current_user.is_authenticated:
+        user = current_user
+    media_list = browse(user=user)
+    return render_template('index.html', media_list=media_list)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

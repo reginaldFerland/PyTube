@@ -3,4 +3,21 @@
 {% block app_content %}
     <h1>Index</h1>
 
+    {% for media in media_list %}
+    <h1>{{media.name}}</h1>
+
+    {% if 'image' in media.type %}
+    <picture>
+    <img src="{{ url_for('files', mediaID=media.id) }}"></img>
+    </picture>
+    {% elif 'video' in media.type %}
+    <video src="{{ url_for('files', mediaID=media.id) }}" controls></video>
+    {% elif 'text' in media.type  %}
+    
+    {% endif %}
+
+    <p> Views: {{media.viewcount}} </p>
+    {% endfor %}
+ 
+
 {% endblock %}
