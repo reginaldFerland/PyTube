@@ -79,3 +79,6 @@ def user_exists(username):
         return False
     else:
         return True
+
+def browse():
+    return Media.query.all()

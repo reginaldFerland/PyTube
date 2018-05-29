@@ -1,5 +1,5 @@
 import unittest
-from PyTube.models import User, Media
+from PyTube.models import User, Media, browse
 from test_basecase import BaseCase
 
 class TestHome(BaseCase):
@@ -29,5 +29,12 @@ class TestHome(BaseCase):
         result = self.client.get('/')
         self.assert_template_used('index.html')
 
+    def test_browse_default(self):
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).all()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).all()
+        test = media1 + media2
 
-
+        result = browse()
+        self.assertEquals(result, test)
