@@ -81,4 +81,4 @@ def user_exists(username):
         return True
 
 def browse():
-    return Media.query.all()
+    return Media.query.filter_by(public=True).all()
