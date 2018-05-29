@@ -48,15 +48,5 @@ class BaseCase(TestCase):
                 print(e)
 
         
-class HomePage(BaseCase):
-    def test_home_page_loads(self):
-        result = self.client.get('/') 
-        self.assertEqual(result.status_code, 200) 
-
-    def test_home_page_template(self):
-        result = self.client.get('/')
-        self.assert_template_used('index.html')
-
-
 if __name__ == '__main__':
     unittest.main(verbosity=2)
