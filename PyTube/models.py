@@ -80,5 +80,10 @@ def user_exists(username):
     else:
         return True
 
-def browse():
-    return Media.query.filter_by(public=True).all()
+def browse(user=None):
+    if user is None:
+        return Media.query.filter_by(public=True).all()
+    else:
+        others = Media.query.filter_by(public=True)
+        users = Media.query.filter_by(user_id=user.id, public=False)
+        return others.union(users).order_by(Media.id.asc()).all()

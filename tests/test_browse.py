@@ -45,9 +45,19 @@ class TestHome(BaseCase):
         media1 = Media.query.filter_by(id=1).first()
         self.logged_in.post('/upload', data=self.upload_mp4)
         media2 = Media.query.filter_by(id=2).first()
-        self.logged_in.get('media/{}'.format(media2.id))
         test = [media2]
 
         result = browse()
+        self.assertEquals(result, test)
+
+    def test_browse_user(self):
+        self.upload_jpg['public'] = False
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        test = [media1, media2]
+
+        result = browse(user=self.user)
         self.assertEquals(result, test)
 
