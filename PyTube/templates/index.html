@@ -3,21 +3,36 @@
 {% block app_content %}
     <h1>Index</h1>
 
-    {% for media in media_list %}
-    <h1>{{media.name}}</h1>
-
-    {% if 'image' in media.type %}
-    <picture>
-    <img src="{{ url_for('files', mediaID=media.id) }}"></img>
-    </picture>
-    {% elif 'video' in media.type %}
-    <video src="{{ url_for('files', mediaID=media.id) }}" controls></video>
-    {% elif 'text' in media.type  %}
-    
-    {% endif %}
-
-    <p> Views: {{media.viewcount}} </p>
-    {% endfor %}
+<div class="album py-5 bg-light">
+<div class="container">
+<div class="row">
  
+   {% for media in media_list %}
+   <!-- Loops through all results -->
+<div class="col-3"> 
+    <div class="card mb-4 box-shadow">
+        <a href="{{ url_for('media', mediaID=media.id) }}">
+        <img class="card-img-top" style="height:200px" src="{{ url_for('files', mediaID=media.id) }}" alt="Card image">
+        </a>
+        <div class="card-body">
+           <h5 class="card-title text-center">{{media.name}}</h5>
+           <p class="card-text">Description</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a type="button" class="btn btn-sm btn-outline-secondary" href="#">Like</a>
+                </div> 
+                <small class="text-muted">Time</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- End loop -->
+    {% endfor %}
+
+</div>
+</div>
+</div>
+
 
 {% endblock %}
