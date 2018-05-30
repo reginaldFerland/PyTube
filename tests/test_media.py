@@ -8,7 +8,7 @@ class TestMedia(BaseCase):
         # Files and upload forms
         # Text file
         self.textfile = open("./tests/files/upload_file.txt")
-        self.upload_txt = dict(name='picture',media=self.textfile, public=True)
+        self.upload_txt = dict(name='picture',media=self.textfile, description="A description", public=True)
         # Picture file
         self.jpgfile = open("./tests/files/upload_picture.jpg", mode='rb')
         self.upload_jpg = dict(name='picture',media=self.jpgfile, public=True)
@@ -44,6 +44,13 @@ class TestMedia(BaseCase):
             
         result = self.client.get('/media/1')
         self.assertIn(self.upload_txt['name'], str(result.data))
+
+    def test_media_page_display_desc(self):
+        self.logged_in.post('/upload', data=self.upload_txt)
+            
+        result = self.client.get('/media/1')
+        self.assertIn(self.upload_txt['description'], str(result.data))
+
 
     def test_media_display_jpg(self):
         self.logged_in.post('/upload', data=self.upload_jpg)
