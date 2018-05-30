@@ -62,7 +62,7 @@ def upload():
         name = form.name.data
         userID = current_user.id
         public = form.public.data
-        media = Media(name=name, type=newFile.mimetype, user_id=current_user.id, public=public)
+        media = Media(name=name, type=newFile.mimetype, user_id=current_user.id, public=public, description=form.description.data)
         db.session.add(media)
         db.session.commit()
         

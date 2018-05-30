@@ -59,6 +59,7 @@ class Media(db.Model):
     name = db.Column(db.String(64), index=True)
     path = db.Column(db.String(128), index=True, unique=True)
     type = db.Column(db.String(32))
+    description = db.Column(db.String(256))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     public = db.Column(db.Boolean)
     viewcount = db.Column(db.Integer, default=0)
