@@ -25,6 +25,7 @@ class UploadPage(BaseCase):
         self.assertIn("name", str(result.data))
         self.assertIn("media", str(result.data))
         self.assertIn("public", str(result.data))
+        self.assertIn("description", str(result.data))
 
     def test_upload_requires_login(self):
         self.client.get('/logout')
