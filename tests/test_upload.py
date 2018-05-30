@@ -20,6 +20,12 @@ class UploadPage(BaseCase):
         result = self.client.get('/upload')
         self.assert_template_used('upload.html')
 
+    def test_upload_form(self):
+        result = self.client.get('/upload')
+        self.assertIn("name", str(result.data))
+        self.assertIn("media", str(result.data))
+        self.assertIn("public", str(result.data))
+
     def test_upload_requires_login(self):
         self.client.get('/logout')
         result = self.client.get('/upload')

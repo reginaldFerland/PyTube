@@ -20,6 +20,14 @@
                             <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
                 </p>
+                <p>
+                        {{ form.public.label }}<br>
+                        {{ form.public }}<br>
+                        {% for error in form.media.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                </p>
+ 
                 <p>{{ form.submit() }}</p>
             </form>
         </div>
