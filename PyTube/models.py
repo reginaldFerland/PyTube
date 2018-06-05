@@ -81,12 +81,11 @@ def user_exists(username):
     else:
         return True
 
-def browse(user=None):
-    VIEW_NUM = 4
+def browse(user=None, limit=4):
     if user is None:
-        return Media.query.filter_by(public=True).limit(VIEW_NUM).all()
+        return Media.query.filter_by(public=True).limit(limit).all()
     else:
         others = Media.query.filter_by(public=True)
         users = Media.query.filter_by(user_id=user.id, public=False)
-        return others.union(users).order_by(Media.id.asc()).limit(VIEW_NUM).all()
+        return others.union(users).order_by(Media.id.asc()).limit(limit).all()
 

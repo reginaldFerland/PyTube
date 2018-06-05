@@ -61,3 +61,14 @@ class TestHome(BaseCase):
         result = browse(user=self.user)
         self.assertEquals(result, test)
 
+    def test_browse_limit(self):
+        self.upload_jpg['public'] = False
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        test = [media1]
+
+        result = browse(user=self.user, limit=1)
+        self.assertEquals(result, test)
+
