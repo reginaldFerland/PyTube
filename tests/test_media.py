@@ -1,6 +1,7 @@
 import unittest
 from PyTube.models import User, Media
 from test_basecase import BaseCase
+from flask import url_for
 
 class TestMedia(BaseCase):
     def setUp(self):
@@ -115,4 +116,14 @@ class TestMedia(BaseCase):
         result = self.client.get('/media/1')
         self.assertIn("Views: ", str(result.data))
         self.assertIn(str(media.viewcount), str(result.data))
+
+    def test_media_link_username(self):
+        self.logged_in.post('/upload', data=self.upload_mp4)
+
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        result = self.client.get('/media/1')
+        self.assertIn(self.user.username, str(result.data))
+        self.assertIn('href="/user/{}"'.format(self.user.username), str(result.data))
+
+       
 

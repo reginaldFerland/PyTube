@@ -14,7 +14,7 @@
     
     {% endif %}
 
-    <p> Uploaded by: {{ username }} </p>
+    <p> Uploaded by: <a href="{{ url_for('user', username=username)}}">{{ username }} </a></p>
     <p> Views: {{media.viewcount}} </p>
     <p> Description: {{media.description}}</P>
  
