@@ -109,3 +109,9 @@ def files(mediaID):
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user_profile.html', user=user)
+
+@app.route('/like/<int:mediaID>', methods=['POST'])
+def like(mediaID):
+    media = Media.query.filter_by(id=mediaID).first()
+    media.like()
+    return redirect(url_for('media', mediaID=media.id))

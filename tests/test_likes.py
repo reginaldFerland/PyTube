@@ -22,9 +22,9 @@ class TestLikes(BaseCase):
         with self.client as self.logged_in:
             self.logged_in.post('/login', data=self.loginForm)
 
-    def test_media_likes(self):      
         self.logged_in.post('/upload', data=self.upload_mp4)
 
+    def test_media_likes(self):      
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
         self.assertEquals(media.likes, 0)
         media.like()
@@ -32,12 +32,13 @@ class TestLikes(BaseCase):
         self.assertEquals(media.likes, 1)
 
     def test_media_likes_display(self):      
-        self.logged_in.post('/upload', data=self.upload_mp4)
-
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
         result = self.client.get('/media/1')
         self.assertIn("Likes: ", str(result.data))
         self.assertIn(str(media.viewcount), str(result.data))
 
-      
+    def test_like_route(self):
+        result = self.logged_in.post('/like/1')
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        self.assertRedirects(result, url_for('media', mediaID=media.id)) 
 
