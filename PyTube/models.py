@@ -69,7 +69,7 @@ class Media(db.Model):
         db.session.commit()
 
     def like(self):
-        self.likes += 1
+        self.likes = self.likes + 1
         db.session.commit()
 
     def increment_viewcount(self):
