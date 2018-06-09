@@ -26,10 +26,10 @@ class TestLikes(BaseCase):
 
     def test_media_likes(self):      
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
-        self.assertEquals(media.likes, 0)
-        media.like()
+        self.assertEquals(media.get_likes(), 0)
+        self.logged_in.post('/like/1')
         result = self.client.get('/media/1')
-        self.assertEquals(media.likes, 1)
+        self.assertEquals(media.get_likes(), 1)
 
     def test_media_likes_display(self):      
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
@@ -42,3 +42,16 @@ class TestLikes(BaseCase):
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
         self.assertRedirects(result, url_for('media', mediaID=media.id)) 
 
+    def test_like_requires_login(self):
+        self.client.get('/logout')
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        pre_like = media.get_likes()
+        result = self.client.post('/like/1')
+        self.assertEqual(pre_like, media.get_likes())
+
+    def test_double_likes(self):
+        self.logged_in.post('/like/1')
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        self.assertEqual(media.get_likes(), 1)
+        with self.assertRaises(Exception):
+            self.logged_in.post('/like/1')

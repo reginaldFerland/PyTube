@@ -9,6 +9,10 @@ followers = db.Table('followers',
     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
 
+likes_table = db.Table('likes',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('media_id', db.Integer, db.ForeignKey('media.id'))
+)
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -62,14 +66,22 @@ class Media(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     public = db.Column(db.Boolean)
     viewcount = db.Column(db.Integer, default=0)
-    likes = db.Column(db.Integer, default=0)
+    like_table = db.relationship("User", secondary=likes_table, lazy="dynamic")
+
+    def like(self, user):
+        if self.is_liked(user):
+            raise Exception("already liked")
+        self.like_table.append(user)
+        db.session.commit()
+    
+    def is_liked(self, user):
+        return self.like_table.filter_by(id = user.id).count() > 0
+
+    def get_likes(self):
+        return self.like_table.count()
 
     def save(self):
         db.session.add(self)
-        db.session.commit()
-
-    def like(self):
-        self.likes = self.likes + 1
         db.session.commit()
 
     def increment_viewcount(self):

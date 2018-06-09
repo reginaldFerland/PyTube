@@ -111,7 +111,8 @@ def user(username):
     return render_template('user_profile.html', user=user)
 
 @app.route('/like/<int:mediaID>', methods=['POST'])
+@login_required
 def like(mediaID):
     media = Media.query.filter_by(id=mediaID).first()
-    media.like()
+    media.like(user=current_user)
     return redirect(url_for('media', mediaID=media.id))
