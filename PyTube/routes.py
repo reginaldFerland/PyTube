@@ -69,9 +69,10 @@ def upload():
 
         fullpath = path + str(media.id) + ext
         media.path = fullpath
-        media.save()
+
         # Save media
         newFile.save(media.path)
+        media.save() # Save after newFile so that only saves if no exceptions/crash 
 
         # Flash sucessful upload
         flash('Media Uploaded!')
