@@ -125,22 +125,4 @@ class TestMedia(BaseCase):
         self.assertIn(self.user.username, str(result.data))
         self.assertIn('href="/user/{}"'.format(self.user.username), str(result.data))
 
-    def test_media_likes(self):      
-        self.logged_in.post('/upload', data=self.upload_mp4)
-
-        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
-        self.assertEquals(media.likes, 0)
-        media.like()
-        result = self.client.get('/media/1')
-        self.assertEquals(media.likes, 1)
-
-    def test_media_likes_display(self):      
-        self.logged_in.post('/upload', data=self.upload_mp4)
-
-        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
-        result = self.client.get('/media/1')
-        self.assertIn("Likes: ", str(result.data))
-        self.assertIn(str(media.viewcount), str(result.data))
-
-      
 
