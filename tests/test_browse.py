@@ -67,8 +67,7 @@ class TestHome(BaseCase):
         media1 = Media.query.filter_by(id=1).first()
         self.logged_in.post('/upload', data=self.upload_mp4)
         media2 = Media.query.filter_by(id=2).first()
-        test = [media1]
 
         result = browse(user=self.user, limit=1)
-        self.assertEquals(result, test)
+        self.assertEquals(len(result), 1)
 
