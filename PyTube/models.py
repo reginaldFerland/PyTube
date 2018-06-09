@@ -62,11 +62,15 @@ class Media(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     public = db.Column(db.Boolean)
     viewcount = db.Column(db.Integer, default=0)
+    likes = db.Column(db.Integer, default=0)
 
     def save(self):
         db.session.add(self)
         db.session.commit()
 
+    def like(self):
+        self.likes += 1
+        db.session.commit()
 
     def increment_viewcount(self):
         self.viewcount = self.viewcount + 1

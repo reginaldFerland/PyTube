@@ -16,6 +16,7 @@
 
     <p> Uploaded by: <a href="{{ url_for('user', username=username)}}">{{ username }} </a></p>
     <p> Views: {{media.viewcount}} </p>
+    <p> Likes: {{media.likes}} </p>
     <p> Description: {{media.description}}</P>
  
 {% endblock %}
