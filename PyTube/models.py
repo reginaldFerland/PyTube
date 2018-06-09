@@ -44,7 +44,6 @@ class User(UserMixin, db.Model):
         self.followed.remove(user)
         db.session.commit()
  
-
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
@@ -63,6 +62,11 @@ class Media(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     public = db.Column(db.Boolean)
     viewcount = db.Column(db.Integer, default=0)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
 
     def increment_viewcount(self):
         self.viewcount = self.viewcount + 1

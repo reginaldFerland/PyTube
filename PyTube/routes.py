@@ -63,15 +63,13 @@ def upload():
         userID = current_user.id
         public = form.public.data
         media = Media(name=name, type=newFile.mimetype, user_id=current_user.id, public=public, description=form.description.data)
-        db.session.add(media)
-        db.session.commit()
+        media.save()
         
         ext = os.path.splitext(newFile.filename)[1]
 
         fullpath = path + str(media.id) + ext
         media.path = fullpath
-        db.session.add(media)
-        db.session.commit()
+        media.save()
         # Save media
         newFile.save(media.path)
 
