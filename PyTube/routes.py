@@ -1,7 +1,7 @@
 from PyTube import app, db
 from flask import render_template, redirect, url_for, flash, send_from_directory, send_file
 from PyTube.forms import RegistrationForm, LoginForm, UploadForm
-from PyTube.models import User, Media, browse
+from PyTube.models import User, Media, browse, get_most_recent, get_most_viewed
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import os.path
@@ -12,8 +12,10 @@ def index():
     user = None
     if current_user.is_authenticated:
         user = current_user
-    media_list = browse(user=user)
-    return render_template('index.html', media_list=media_list)
+    recent_uploads = get_most_recent(user=user)
+    most_viewed = get_most_viewed(user=user)
+    most_liked = get_most_viewed(user=user) # Placeholder
+    return render_template('index.html', recent_uploads=recent_uploads, most_viewed=most_viewed, most_liked=most_liked)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

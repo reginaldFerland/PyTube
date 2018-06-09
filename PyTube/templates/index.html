@@ -7,11 +7,24 @@
 <div class="container">
 <div class="row">
  
-   {% for media in media_list %}
-   <!-- Loops through all results -->
+    {% for media in recent_uploads %}
+    <!-- Loops through all results -->
     {% include '_display_media.html' %}
     <!-- End loop -->
     {% endfor %}
+
+    {% for media in most_viewed %}
+    <!-- Loops through all results -->
+    {% include '_display_media.html' %}
+    <!-- End loop -->
+    {% endfor %}
+
+    {% for media in most_liked %}
+    <!-- Loops through all results -->
+    {% include '_display_media.html' %}
+    <!-- End loop -->
+    {% endfor %}
+
 
 </div>
 </div>
