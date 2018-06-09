@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>Index</h1>
+    <h1 class="text-center">Recent Uploads</h1>
 
-<div class="album py-5 bg-light">
-<div class="container">
-<div class="row">
+    <div class="album py-5">
+    <div class="container">
+    <div class="row">
  
     {% for media in recent_uploads %}
     <!-- Loops through all results -->
@@ -13,12 +13,32 @@
     <!-- End loop -->
     {% endfor %}
 
+    </div>
+    </div>
+    </div>
+
+
+    <h1 class="text-center">Most Viewed</h1>
+    <div class="album py-5">
+    <div class="container">
+    <div class="row">
+ 
     {% for media in most_viewed %}
     <!-- Loops through all results -->
     {% include '_display_media.html' %}
     <!-- End loop -->
     {% endfor %}
 
+    </div>
+    </div>
+    </div>
+    
+
+    <h1 class="text-center">Most Liked</h1>
+    <div class="album py-5">
+    <div class="container">
+    <div class="row">
+ 
     {% for media in most_liked %}
     <!-- Loops through all results -->
     {% include '_display_media.html' %}
@@ -26,9 +46,9 @@
     {% endfor %}
 
 
-</div>
-</div>
-</div>
+    </div>
+    </div>
+    </div>
 
 
 {% endblock %}
