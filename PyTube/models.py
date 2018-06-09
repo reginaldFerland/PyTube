@@ -101,3 +101,11 @@ def get_most_recent(user=None, limit=4):
         users = Media.query.filter_by(user_id=user.id, public=False)
         return others.union(users).order_by(Media.id.desc()).limit(limit).all()
 
+def get_most_viewed(user=None, limit=4):
+    if user is None:
+        return Media.query.filter_by(public=True).order_by(Media.viewcount.desc()).limit(limit).all()
+    else:
+        others = Media.query.filter_by(public=True)
+        users = Media.query.filter_by(user_id=user.id, public=False)
+        return others.union(users).order_by(Media.viewcount.desc()).limit(limit).all()
+
