@@ -115,5 +115,8 @@ def user(username):
 @login_required
 def like(mediaID):
     media = Media.query.filter_by(id=mediaID).first()
-    media.like(user=current_user)
+    if media.is_liked(user=current_user):
+        media.unlike(user=current_user)
+    else:
+        media.like(user=current_user)
     return redirect(url_for('media', mediaID=media.id))

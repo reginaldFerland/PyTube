@@ -49,17 +49,17 @@ class TestLikes(BaseCase):
         result = self.client.post('/like/1')
         self.assertEqual(pre_like, media.get_likes())
 
-    def test_double_likes(self):
-        self.logged_in.post('/like/1')
-        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
-        self.assertEqual(media.get_likes(), 1)
-        with self.assertRaises(Exception):
-            self.logged_in.post('/like/1')
-
     # Unlike
     def test_unlike(self):
         self.logged_in.post('/like/1')
         media = Media.query.filter_by(name=self.upload_mp4['name']).first()
         self.assertEqual(media.get_likes(), 1)
         media.unlike(self.user)
+        self.assertEqual(media.get_likes(), 0)
+
+    def test_double_like_unlikes(self):
+        self.logged_in.post('/like/1')
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        self.assertEqual(media.get_likes(), 1)
+        self.logged_in.post('/like/1')
         self.assertEqual(media.get_likes(), 0)
