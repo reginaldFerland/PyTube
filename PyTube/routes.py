@@ -97,7 +97,8 @@ def media(mediaID):
 
     user = User.query.filter_by(id=media.user_id).first()
     media.increment_viewcount()
-    return render_template('media.html', media=media, username=user.username)
+    likes = media.get_likes()
+    return render_template('media.html', media=media, username=user.username, likes=likes)
 
 @app.route('/files/<int:mediaID>')
 def files(mediaID):
