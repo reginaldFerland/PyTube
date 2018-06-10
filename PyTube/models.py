@@ -73,6 +73,14 @@ class Media(db.Model):
             raise Exception("already liked")
         self.like_table.append(user)
         db.session.commit()
+
+    def unlike(self, user):
+        if not self.is_liked(user):
+            raise Exception("not liked")
+        self.like_table.remove(user)
+        db.session.commit()
+    
+
     
     def is_liked(self, user):
         return self.like_table.filter_by(id = user.id).count() > 0

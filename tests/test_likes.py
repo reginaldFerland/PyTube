@@ -55,3 +55,11 @@ class TestLikes(BaseCase):
         self.assertEqual(media.get_likes(), 1)
         with self.assertRaises(Exception):
             self.logged_in.post('/like/1')
+
+    # Unlike
+    def test_unlike(self):
+        self.logged_in.post('/like/1')
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        self.assertEqual(media.get_likes(), 1)
+        media.unlike(self.user)
+        self.assertEqual(media.get_likes(), 0)

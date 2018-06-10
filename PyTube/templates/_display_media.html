@@ -8,9 +8,15 @@
            <p class="card-text">{{media.description}}</p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
+                    {% if not media.is_liked(current_user) %}
                     <form action="{{ url_for('like',mediaID=media.id) }}" method="POST">
                     <button type="submit" class="btn btn-sm btn-outline-secondary" >Like</button>
                     </form>
+                    {% else %}
+                    <form action="{{ url_for('unlike',mediaID=media.id) }}" method="POST">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary" >Unlike</button>
+                    </form>
+                    {% endif %}
                 </div> 
                 <small class="text-muted">Time</small>
             </div>
