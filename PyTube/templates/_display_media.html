@@ -18,7 +18,11 @@
                     </form>
                     {% endif %}
                 </div> 
-                <small class="text-muted">Time</small>
+                <small class="text-muted">
+                    <script>
+                        document.write(moment("2012-12-31T23:55:13Z").format('LLLL'));
+                    </script>
+                </small>
             </div>
         </div>
     </div>

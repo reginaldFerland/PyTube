@@ -67,6 +67,7 @@ class Media(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     public = db.Column(db.Boolean)
     viewcount = db.Column(db.Integer, default=0)
+    upload_time = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     like_table = db.relationship("User", secondary=likes_table, lazy="dynamic")
     like_count = db.Column(db.Integer, default=0)
 

@@ -2,6 +2,7 @@ import unittest
 from PyTube.models import User, Media
 from test_basecase import BaseCase
 from flask import url_for
+from datetime import datetime
 
 class TestMedia(BaseCase):
     def setUp(self):
@@ -124,5 +125,13 @@ class TestMedia(BaseCase):
         result = self.client.get('/media/1')
         self.assertIn(self.user.username, str(result.data))
         self.assertIn('href="/user/{}"'.format(self.user.username), str(result.data))
+
+    def test_media_timestamp(self):
+        start = datetime.now()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+
+        media = Media.query.filter_by(name=self.upload_mp4['name']).first()
+        now = datetime.now()
+        self.assertTrue(start < media.upload_time < now)
 
 
