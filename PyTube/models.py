@@ -80,8 +80,6 @@ class Media(db.Model):
         self.like_table.remove(user)
         db.session.commit()
     
-
-    
     def is_liked(self, user):
         return self.like_table.filter_by(id = user.id).count() > 0
 
