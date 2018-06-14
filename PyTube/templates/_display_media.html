@@ -20,7 +20,7 @@
                 </div> 
                 <small class="text-muted">
                     <script>
-                        document.write(moment("2012-12-31T23:55:13Z").format('LLLL'));
+                        document.write(moment.utc("{{ media.upload_time }}").fromNow());
                     </script>
                 </small>
             </div>
