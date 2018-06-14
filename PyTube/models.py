@@ -2,6 +2,7 @@ from PyTube import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
+from sqlalchemy import func
 
 # Creating many to many 
 followers = db.Table('followers',
@@ -67,17 +68,20 @@ class Media(db.Model):
     public = db.Column(db.Boolean)
     viewcount = db.Column(db.Integer, default=0)
     like_table = db.relationship("User", secondary=likes_table, lazy="dynamic")
+    like_count = db.Column(db.Integer, default=0)
 
     def like(self, user):
         if self.is_liked(user):
             raise Exception("already liked")
         self.like_table.append(user)
+        self.like_count += 1
         db.session.commit()
 
     def unlike(self, user):
         if not self.is_liked(user):
             raise Exception("not liked")
         self.like_table.remove(user)
+        self.like_count -= 1
         db.session.commit()
     
     def is_liked(self, user):
@@ -130,4 +134,13 @@ def get_most_viewed(user=None, limit=4):
         others = Media.query.filter_by(public=True)
         users = Media.query.filter_by(user_id=user.id, public=False)
         return others.union(users).order_by(Media.viewcount.desc()).limit(limit).all()
+
+def get_most_liked(user=None, limit=4):
+    if user is None:
+        return Media.query.filter_by(public=True).order_by(Media.like_count.desc()).limit(limit).all()
+    else:
+        others = Media.query.filter_by(public=True)
+        users = Media.query.filter_by(user_id=user.id, public=False)
+        return others.union(users).order_by(Media.like_count.desc()).limit(limit).all()
+
 

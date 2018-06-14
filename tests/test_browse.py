@@ -1,5 +1,5 @@
 import unittest
-from PyTube.models import User, Media, browse, get_most_recent, get_most_viewed
+from PyTube.models import User, Media, browse, get_most_recent, get_most_viewed, get_most_liked
 from test_basecase import BaseCase
 
 class TestHome(BaseCase):
@@ -154,6 +154,52 @@ class TestHome(BaseCase):
         media2.increment_viewcount()
 
         result = get_most_viewed(user=self.user, limit=1)
+        self.assertEquals(len(result), 1)
+        self.assertEquals(result, [media2])
+
+    def test_get_most_liked_default(self):
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        media2.like(self.user)
+        test = [media2 , media1]
+
+        result = get_most_liked()
+        self.assertEquals(result, test)
+
+    def test_get_most_liked_private(self):
+        self.upload_jpg['public'] = False
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        media1.like(self.user)
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        test = [media2]
+
+        result = get_most_liked()
+        self.assertEquals(result, test)
+
+    def test_get_most_liked_user(self):
+        self.upload_jpg['public'] = False
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        media2.like(self.user)
+        test = [media2, media1]
+
+        result = get_most_liked(user=self.user)
+        self.assertEquals(result, test)
+
+    def test_get_most_liked_limit(self):
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        media2.like(self.user)
+
+        result = get_most_liked(user=self.user, limit=1)
         self.assertEquals(len(result), 1)
         self.assertEquals(result, [media2])
 
