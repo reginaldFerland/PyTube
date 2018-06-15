@@ -2,17 +2,23 @@
 
 {% block app_content %}
 
-    <h1>{{media.name}}</h1>
+    <h1 class="text-center">{{media.name}}</h1>
+    
+    <div class="row">
+    <div class="col">
 
     {% if 'image' in media.type %}
     <picture>
-    <img src="{{ url_for('files', mediaID=media.id) }}"></img>
+    <img class="img-fluid" src="{{ url_for('files', mediaID=media.id) }}"></img>
     </picture>
     {% elif 'video' in media.type %}
-    <video src="{{ url_for('files', mediaID=media.id) }}" controls></video>
+    <video class="mx-auto" src="{{ url_for('files', mediaID=media.id) }}" controls></video>
     {% elif 'text' in media.type  %}
     
     {% endif %}
+
+    </div>
+    </div>
 
     <p> Uploaded by: <a href="{{ url_for('user', username=username)}}">{{ username }} </a></p>
     <p> Views: {{media.viewcount}} </p>
