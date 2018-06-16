@@ -17,6 +17,27 @@ def index():
     most_liked = get_most_liked(user=user) 
     return render_template('index.html', recent_uploads=recent_uploads, most_viewed=most_viewed, most_liked=most_liked)
 
+@app.route('/recent_uploads')
+def view_recent_uploads():
+    user = None
+    if current_user.is_authenticated:
+        user = current_user
+    return render_template('view_all.html', media=get_most_recent(user, limit=None))
+
+@app.route('/most_viewed')
+def view_most_viewed():
+    user = None
+    if current_user.is_authenticated:
+        user = current_user
+    return render_template('view_all.html', media=get_most_viewed(user, limit=None))
+
+@app.route('/most_liked')
+def view_most_liked():
+    user = None
+    if current_user.is_authenticated:
+        user = current_user
+    return render_template('view_all.html', media=get_most_liked(user, limit=None))
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
