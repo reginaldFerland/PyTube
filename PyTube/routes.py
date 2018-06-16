@@ -22,21 +22,21 @@ def view_recent_uploads():
     user = None
     if current_user.is_authenticated:
         user = current_user
-    return render_template('view_all.html', media=get_most_recent(user, limit=None))
+    return render_template('view_all.html', header="Recent Uploads", media=get_most_recent(user, limit=None))
 
 @app.route('/most_viewed')
 def view_most_viewed():
     user = None
     if current_user.is_authenticated:
         user = current_user
-    return render_template('view_all.html', media=get_most_viewed(user, limit=None))
+    return render_template('view_all.html', header="Most Viewed", media=get_most_viewed(user, limit=None))
 
 @app.route('/most_liked')
 def view_most_liked():
     user = None
     if current_user.is_authenticated:
         user = current_user
-    return render_template('view_all.html', media=get_most_liked(user, limit=None))
+    return render_template('view_all.html', header="Most Liked", media=get_most_liked(user, limit=None))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
