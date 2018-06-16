@@ -1,7 +1,7 @@
 from PyTube import app, db
-from flask import render_template, redirect, url_for, flash, send_from_directory, send_file
+from flask import render_template, redirect, url_for, flash, send_from_directory, send_file, request
 from PyTube.forms import RegistrationForm, LoginForm, UploadForm
-from PyTube.models import User, Media, browse, get_most_recent, get_most_viewed, get_most_liked
+from PyTube.models import User, Media, browse, get_most_recent, get_most_viewed, get_most_liked, search
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import os.path
@@ -26,6 +26,11 @@ def index():
     most_viewed = get_most_viewed(user=user)
     most_liked = get_most_liked(user=user) 
     return render_template('index.html', recent_uploads=recent_uploads, most_viewed=most_viewed, most_liked=most_liked)
+
+@app.route('/search', methods=['post'])
+def view_search():
+    word = request.form['search']
+    return render_template('view_all.html', header="Search results: {}".format(word), media=search(word))
 
 @app.route('/recent_uploads')
 def view_recent_uploads():
