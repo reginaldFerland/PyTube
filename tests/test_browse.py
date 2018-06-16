@@ -9,6 +9,7 @@ class TestHome(BaseCase):
         # Text file
         self.textfile = open("./tests/files/upload_file.txt")
         self.upload_txt = dict(name='picture',media=self.textfile, public=True)
+
         # Picture file
         self.jpgfile = open("./tests/files/upload_picture.jpg", mode='rb')
         self.upload_jpg = dict(name='picture',media=self.jpgfile, public=True)
@@ -16,6 +17,16 @@ class TestHome(BaseCase):
         # Video file
         self.mp4file = open("./tests/files/upload_video.mp4", mode='rb')
         self.upload_mp4 = dict(name='video',media=self.mp4file, public=True)
+
+        # For extras
+        self.jpgfile = open("./tests/files/upload_picture.jpg", mode='rb')
+        self.extra1 = dict(name='picture',media=self.jpgfile, public=True)
+        self.jpgfile = open("./tests/files/upload_picture.jpg", mode='rb')
+        self.extra2 = dict(name='picture',media=self.jpgfile, public=True)
+        self.jpgfile = open("./tests/files/upload_picture.jpg", mode='rb')
+        self.extra3 = dict(name='picture',media=self.jpgfile, public=True)
+        self.jpgfile = open("./tests/files/upload_picture.jpg", mode='rb')
+        self.extra4 = dict(name='picture',media=self.jpgfile, public=True)
     
         # Logged in client
         with self.client as self.logged_in:
@@ -108,8 +119,25 @@ class TestHome(BaseCase):
         self.logged_in.post('/upload', data=self.upload_mp4)
         media2 = Media.query.filter_by(id=2).first()
 
-        result = browse(user=self.user, limit=1)
+        result = get_most_recent(user=self.user, limit=1)
         self.assertEquals(len(result), 1)
+
+    def test_get_most_recent_all(self):
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        self.logged_in.post('/upload', data=self.extra1)
+        media3 = Media.query.filter_by(id=3).first()
+        self.logged_in.post('/upload', data=self.extra2)
+        media4 = Media.query.filter_by(id=4).first()
+        self.logged_in.post('/upload', data=self.extra3)
+        media5 = Media.query.filter_by(id=5).first()
+        expected = [media5, media4, media3, media2, media1]
+
+        result = get_most_recent(user=self.user, limit=None)
+        
+        self.assertEquals(result, expected)
 
     def test_get_most_viewed_default(self):
         self.logged_in.post('/upload', data=self.upload_jpg)

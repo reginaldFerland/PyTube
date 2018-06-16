@@ -20,9 +20,20 @@
     </div>
     </div>
 
+    <div class="row">
+    <div class="col">
     <p> Uploaded by: <a href="{{ url_for('user', username=username)}}">{{ username }} </a></p>
+    </div>
+    <div class="col">
     <p> Views: {{media.viewcount}} </p>
+    </div>
+    <div class="col">
     <p> Likes: {{likes}} </p>
-    <p> Description: {{media.description}}</P>
+    </div>
+    </div>
+    <div class="row">
+    <h5 class="text-center mx-auto"> Description:</h5> 
+    <p> {{media.description}}</p>
+    </div>
  
 {% endblock %}
