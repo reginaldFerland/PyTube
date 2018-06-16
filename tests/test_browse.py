@@ -258,3 +258,22 @@ class TestHome(BaseCase):
         self.assertEquals(len(result), 1)
         self.assertEquals(result, [media2])
 
+    def test_get_most_liked_all(self):
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        self.logged_in.post('/upload', data=self.extra1)
+        media3 = Media.query.filter_by(id=3).first()
+        self.logged_in.post('/upload', data=self.extra2)
+        media4 = Media.query.filter_by(id=4).first()
+        self.logged_in.post('/upload', data=self.extra3)
+        media5 = Media.query.filter_by(id=5).first()
+        media5.like(self.user)
+        expected = [media5, media1, media2, media3, media4]
+
+        result = get_most_liked(user=self.user, limit=None)
+        
+        self.assertEquals(result, expected)
+
+
