@@ -144,4 +144,5 @@ def get_most_liked(user=None, limit=4):
         users = Media.query.filter_by(user_id=user.id, public=False)
         return others.union(users).order_by(Media.like_count.desc()).limit(limit).all()
 
-
+def search(word):
+    return Media.query.filter_by(public=True).filter(Media.name.like("%{}%".format(word)) | Media.description.like("%{}%".format(word))).order_by(Media.viewcount.desc()).all()
