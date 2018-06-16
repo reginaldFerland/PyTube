@@ -185,6 +185,33 @@ class TestHome(BaseCase):
         self.assertEquals(len(result), 1)
         self.assertEquals(result, [media2])
 
+    def test_get_most_viewed_all(self):
+        self.logged_in.post('/upload', data=self.upload_jpg)
+        media1 = Media.query.filter_by(id=1).first()
+        self.logged_in.post('/upload', data=self.upload_mp4)
+        media2 = Media.query.filter_by(id=2).first()
+        media2.increment_viewcount()
+        self.logged_in.post('/upload', data=self.extra1)
+        media3 = Media.query.filter_by(id=3).first()
+        media3.increment_viewcount()
+        media3.increment_viewcount()
+        self.logged_in.post('/upload', data=self.extra2)
+        media4 = Media.query.filter_by(id=4).first()
+        media4.increment_viewcount()
+        media4.increment_viewcount()
+        media4.increment_viewcount()
+        self.logged_in.post('/upload', data=self.extra3)
+        media5 = Media.query.filter_by(id=5).first()
+        media5.increment_viewcount()
+        media5.increment_viewcount()
+        media5.increment_viewcount()
+        media5.increment_viewcount()
+        expected = [media5, media4, media3, media2, media1]
+
+        result = get_most_viewed(user=self.user, limit=None)
+        
+        self.assertEquals(result, expected)
+
     def test_get_most_liked_default(self):
         self.logged_in.post('/upload', data=self.upload_jpg)
         media1 = Media.query.filter_by(id=1).first()
