@@ -52,7 +52,7 @@ class User(UserMixin, db.Model):
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
-    def get_followers(self):
+    def get_following(self):
         return self.followed.all()
 
     def __repr__(self):

@@ -66,7 +66,7 @@ class TestUser(BaseCase):
         with self.assertRaises(Exception):
             bob.unfollow(self.user)
 
-    def test_user_get_followers(self):
+    def test_user_get_following(self):
         bob = User(username="bob", email="bob@bob.com")
         bob.set_password("hunter2")
         bob.save()
@@ -78,7 +78,7 @@ class TestUser(BaseCase):
         bob.follow(self.user)
         bob.follow(user2)
         
-        self.assertTrue(bob.get_followers() == [self.user, user2])
+        self.assertTrue(bob.get_following() == [self.user, user2])
              
 
     def test_user_page_loads(self):
