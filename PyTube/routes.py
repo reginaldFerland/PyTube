@@ -145,7 +145,8 @@ def files(mediaID):
 @app.route('/user/<string:username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user_profile.html', user=user)
+    is_user=(current_user == user)
+    return render_template('user_profile.html', user=user, is_user=is_user)
 
 @app.route('/like/<int:mediaID>', methods=['POST'])
 @login_required
