@@ -119,7 +119,7 @@ def upload():
         return redirect(url_for('media', mediaID=media.id))
     return render_template('upload.html', form=form)
 
-@app.route('/media/<int:mediaID>')
+@app.route('/media/<int:mediaID>', methods=['GET', 'POST'])
 def media(mediaID):
     media = Media.query.filter_by(id=mediaID).first_or_404()
     path = media.path
@@ -134,7 +134,11 @@ def media(mediaID):
     user = User.query.filter_by(id=media.user_id).first()
     media.increment_viewcount()
     likes = media.get_likes()
-    return render_template('media.html', media=media, username=user.username, likes=likes)
+
+    if request.method == 'POST' and current_user == user:
+        media.delete()
+        return redirect(url_for('index'))
+    return render_template('media.html', media=media, username=user.username, likes=likes, uploader=(current_user == user))
 
 @app.route('/files/<int:mediaID>')
 def files(mediaID):

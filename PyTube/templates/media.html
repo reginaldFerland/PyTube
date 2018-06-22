@@ -23,6 +23,9 @@
     <div class="row">
     <div class="col">
     <p> Uploaded by: <a href="{{ url_for('user', username=username)}}">{{ username }} </a></p>
+    {% if uploader %}
+        <form action="" method="post" enctype=multipart/form-data><button>Delete</button></form>
+    {% endif %}
     </div>
     <div class="col">
     <p> Views: {{media.viewcount}} </p>

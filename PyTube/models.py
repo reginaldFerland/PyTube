@@ -96,6 +96,10 @@ class Media(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     def increment_viewcount(self):
         self.viewcount = self.viewcount + 1
         db.session.commit()
