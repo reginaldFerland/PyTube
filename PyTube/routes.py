@@ -1,6 +1,6 @@
 from PyTube import app, db
 from flask import render_template, redirect, url_for, flash, send_from_directory, send_file, request
-from PyTube.forms import RegistrationForm, LoginForm, UploadForm
+from PyTube.forms import RegistrationForm, LoginForm, UploadForm, ProfileForm
 from PyTube.models import User, Media, browse, get_most_recent, get_most_viewed, get_most_liked, search
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
@@ -142,11 +142,16 @@ def files(mediaID):
     path = media.path
     return send_file(path) # send_from_directory(media.path)
 
-@app.route('/user/<string:username>')
+@app.route('/user/<string:username>', methods=['GET','POST'])
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    form = ProfileForm()
+    if form.validate_on_submit():
+        user.about = form.about.data
+        user.save()        
+        redirect(url_for('user',username=username))
     is_user=(current_user == user)
-    return render_template('user_profile.html', user=user, is_user=is_user)
+    return render_template('user_profile.html', user=user, is_user=is_user, form=form)
 
 @app.route('/like/<int:mediaID>', methods=['POST'])
 @login_required

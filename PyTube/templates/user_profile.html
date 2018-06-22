@@ -2,6 +2,33 @@
 
 {% block app_content %}
 
+    {% if is_user %}
+    <form action="" method="post" enctype=multipart/form-data>
+        {{ form.hidden_tag() }}
+    <div class="row">
+    <div class="col-4">
+        <img src="{{ url_for('files', mediaID=1) }}" alt="Profile Pic" class="img-thumbnail">
+    </div>
+    <div class="col-7">
+    <h1 class="text-center"> Welcome to {{ user.username }}'s Page! </h1>
+    <p class="text-center"> Join Date:
+    <script>
+        document.write(moment.utc("{{ user.join_date }}").format('LL'));
+    </script>
+    </p>
+    <p class="text-center"> About: {{ form.about }} </p>
+        {% for error in form.about.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="col-1">
+        <p>{{ form.submit }}</p>
+    </div>
+    </div>
+    </form>
+ 
+    {% else %}
+
     <div class="row">
     <div class="col-4">
         <img src="{{ url_for('files', mediaID=1) }}" alt="Profile Pic" class="img-thumbnail">
@@ -15,15 +42,9 @@
     </p>
     <p class="text-center"> About: {{ user.about }} </p>
     </div>
-    <div class="col-1">
-    {% if current_user.is_anonymous %}
-    {% elif is_user %}
-    <p> Edit profile </p>
-    {% else %}
-    <p> Follow </p>
-    {% endif %} 
     </div>
-    </div>
+
+    {% endif %}
     <hr>
  
 {% endblock %}

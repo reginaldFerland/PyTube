@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     about = db.Column(db.String(256))
     join_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    profile_pic = db.Column(db.Integer, default=1)
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),

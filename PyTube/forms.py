@@ -35,3 +35,8 @@ class UploadForm(FlaskForm):
     description = TextAreaField('description', validators=[Length(max=256)])
     public = BooleanField('Public', default=True, false_values=[False, 'false', 'False'])
     submit = SubmitField('Upload')
+
+class ProfileForm(FlaskForm):
+    picture = FileField()
+    about = TextAreaField('about', validators=[Length(max=256)])
+    submit = SubmitField('Update')
